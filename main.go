@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// initialization; condition; increment
-	// The firs t element of os.Args, os.Args[0], is the name of the command its elf; 
+	// The first element of os.Args, os.Args[0], is the name of the command its elf; 
 	for i := 0; i < len(os.Args); i++ {
 		fmt.Println(os.Args[i])
 	}
