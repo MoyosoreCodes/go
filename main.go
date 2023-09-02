@@ -2,10 +2,11 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strconv"
+	"fmt"
 )
 
 func check(e error) {
@@ -14,7 +15,7 @@ func check(e error) {
 	}
 }
 
-func day1(fileName string) int {
+func getCaloriesTotal(fileName string) []int {
 	file, err := os.Open(fileName)
 	check(err)
 	defer file.Close()
@@ -34,21 +35,32 @@ func day1(fileName string) int {
 		check(err)
 		totalCalories += num
 	}
-	max := allCalories[0]
-	for _, calory := range allCalories {
-		if calory > max {
-			max = calory
-		}
-	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	return max
+	return allCalories
+}
+
+func getTopThreeCalories(array []int, top int) []int {
+	if len(array) < top {
+		return array
+	}
+
+	sort.Sort(sort.Reverse(sort.IntSlice(array)))
+
+	return array[:top]
 }
 
 func main() {
-	maxCalory := day1("day1.txt")
-	fmt.Println("maxCalory: ", maxCalory)
+	calories := getCaloriesTotal("day1.txt")
+	topThree := getTopThreeCalories(calories, 3)
+	fmt.Println("max: ", topThree[0])
+	fmt.Println("topThree: ", topThree)
+	sum := 0
+	for _, calory := range topThree {
+		sum += calory
+	}
+	fmt.Println("topThree total: ", sum)
 }
