@@ -43,7 +43,7 @@ func getCaloriesTotal(fileName string) []int {
 	return allCalories
 }
 
-func getTopThreeCalories(array []int, top int) []int {
+func getTopCalories(array []int, top int) []int {
 	if len(array) < top {
 		return array
 	}
@@ -55,7 +55,7 @@ func getTopThreeCalories(array []int, top int) []int {
 
 func main() {
 	calories := getCaloriesTotal("day1.txt")
-	topThree := getTopThreeCalories(calories, 3)
+	topThree := getTopCalories(calories, 3)
 	fmt.Println("max: ", topThree[0])
 	fmt.Println("topThree: ", topThree)
 	sum := 0
