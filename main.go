@@ -1,37 +1,50 @@
 package main
 
 import (
-	"fmt" 
+	"bufio"
+	"fmt"
+	"log"
+	"os"
+	"strconv"
 )
 
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
 func main() {
-	// basic stuff
-	fmt.Println("Your lack of faith disturbs me")
+	file, err := os.Open("day1.txt")
+	check(err)
+	defer file.Close()
 
-	
-	// ! LOOPS
-	// i, arg := range os.Args[1:]
-	// similar to for index, item in
-	// for i, arg := range os.Args[1:] {
-	// 	fmt.Println(i, arg)
-	// }
+	scanner := bufio.NewScanner(file)
+	allCalories := []int{}
+	totalCalories := 0
 
-	// initialization; condition; increment
-	// The first element of os.Args, os.Args[0], is the name of the command its elf; 
-	// for i := 0; i < len(os.Args); i++ {
-	// 	fmt.Println(os.Args[i])
-	// }
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line == "" {
+			allCalories = append(allCalories, totalCalories)
+			totalCalories = 0
+			continue
+		}
+		num, err := strconv.Atoi(line)
+		check(err)
+		totalCalories += num
+	}
+	max := allCalories[0]
+	for index, calory := range allCalories {
+		fmt.Println("calory: ", calory)
+		if calory > max {
+			max = calory
+		}
+		fmt.Println("index: ", index)
+	}
 
-	// fmt.Println(strings.Join(os.Args[1:], " "))
-	// fmt.Println(os.Args[1:][0])
-
-	// maps
-	hashMap := make(map[string]string)
-	hashMap["foo"] = "bar"
-	fmt.Println(hashMap)
-
-	for key, value := range hashMap {
-		fmt.Println("key: ", key)
-		fmt.Println("value: ", value)
+	fmt.Println(max)
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
 	}
 }
